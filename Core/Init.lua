@@ -12,6 +12,5 @@ addon.version = "0.1.0"
 SLASH_REPUTATIONRENOWN1 = "/rr"
 
 SlashCmdList["REPUTATIONRENOWN"] = function(msg)
-    print("|cff00ff00Reputation Renown|r v" .. addon.version)
-    print("Addon loaded successfully!")
+    addon:ToggleReputationFrame()
 end
