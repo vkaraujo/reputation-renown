@@ -1,10 +1,10 @@
 ## Interface: 16001
 ## Title: Reputation Renown
-## Notes: A modern Renown-inspired reputation interface for WoW Forever.
+## Notes: Renown-inspired reputation interface for WoW Forever (prototype)
 ## Author: vkaraujo
-## Version: 0.1.0
+## Version: 0.2.0
 
 Core/Init.lua
-Data/TimbermawHold.lua
 Core/Reputation.lua
+Data/TimbermawHold.lua
 UI/ReputationFrame.lua

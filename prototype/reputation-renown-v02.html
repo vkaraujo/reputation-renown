@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Reputation Renown — Timbermaw Hold Prototype</title>
+  <style>
+    :root { --faction-accent:#bd9454; --faction-border:#bd9454; --faction-forest:#314b3d; --faction-highlight:#9db583; color-scheme:dark; --gold:#e8c883; --gold-dim:#ac8d55; --ivory:#f5e8cf; --muted:#acaa9d; --panel:#121a1a; --stroke:#665638; --green:#7fc6a5; }
+    * {box-sizing:border-box} body {margin:0;min-height:100vh;background:radial-gradient(ellipse at 50% 4%,#31413b 0%,#141e20 36%,#090d11 75%);font-family:Arial,Helvetica,sans-serif;color:var(--ivory)}
+    body::before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.2;background:repeating-linear-gradient(35deg,transparent 0,transparent 72px,#dbc4940a 73px,#dbc4940a 74px)}
+    .page{max-width:1200px;margin:auto;padding:30px 22px 70px}.topline{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:20px;flex-wrap:wrap}.brand{font-family:Georgia,serif;font-size:23px;letter-spacing:2px;color:#e9d6ac}.badge{font:11px Arial,sans-serif;letter-spacing:2px;color:#bdb5a4;border:1px solid #5d5f54;padding:9px 12px;border-radius:3px}.note{font-size:12px;color:#bfbba9;margin:10px 0 24px;line-height:1.6}
+    .mock-window{border:1px solid var(--faction-border);border-radius:8px;box-shadow:0 0 0 5px #101613,0 0 0 6px #55462e,0 24px 65px #000b;overflow:hidden;background:#101918;position:relative}
+    .mock-window::after{content:"";position:absolute;inset:7px;border:1px solid #7f673b66;pointer-events:none;border-radius:3px}
+    .hero{height:265px;position:relative;overflow:hidden;border-bottom:2px solid #947342;background:radial-gradient(ellipse at 52% 45%,var(--faction-forest) 0%,transparent 52%),linear-gradient(90deg,#0b1619dd 0%,#142522aa 49%,#0b1619dd 100%),linear-gradient(150deg,#1c302c 0%,var(--faction-forest) 48%,#192c2b 100%)}
+    .hero::before,.hero::after{content:"";position:absolute;bottom:-28px;width:390px;height:270px;opacity:.43;filter:blur(1px);background:repeating-conic-gradient(from 0deg at 50% 100%,transparent 0deg 12deg,#091817 13deg 19deg,transparent 20deg 40deg);clip-path:polygon(0 100%,0 55%,12% 55%,20% 10%,27% 64%,42% 18%,49% 75%,70% 20%,81% 65%,100% 30%,100% 100%)}.hero::before{left:-80px}.hero::after{right:-80px;transform:scaleX(-1)}
+    .hero-overlay{position:absolute;inset:0;background:linear-gradient(0deg,#0b1416 0%,transparent 53%),linear-gradient(90deg,#070d1299,transparent 40%,#070d1299)}
+    .close{position:absolute;right:21px;top:19px;z-index:3;background:#0c1314cc;border:1px solid #b3945d88;color:#decba0;width:29px;height:29px;cursor:pointer;border-radius:3px;font-size:18px}.close:hover{color:white;border-color:var(--gold)}
+    .header-content{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:20px 22px 15px;text-align:center}
+    .eyebrow{font-size:10px;letter-spacing:4px;font-weight:700;color:#d8bd83;text-transform:uppercase}.crest{width:61px;height:67px;margin:8px 0 6px;border:2px solid var(--faction-accent);background:linear-gradient(140deg,var(--faction-forest),#0d1b1a);clip-path:polygon(50% 0,94% 16%,89% 71%,50% 100%,11% 71%,6% 16%);display:grid;place-items:center;filter:drop-shadow(0 4px 5px #000)}.crest span{font-size:35px;color:#e4c58e;text-shadow:0 2px 9px #e0b66377}
+    h1{font-family:Georgia,'Times New Roman',serif;font-size:clamp(30px,5vw,44px);letter-spacing:4px;line-height:1.1;margin:1px 0 9px;font-weight:500;text-shadow:0 3px 6px #000}.subtitle{font:italic 14px Georgia,serif;color:#d8d0bb;margin:0 0 19px}
+    .reputation{width:min(470px,90%)}.reputation-line{display:flex;justify-content:space-between;gap:10px;margin-bottom:7px;font-size:12px}.reputation-line strong{font-weight:700;color:#eed093;letter-spacing:1.3px}.reputation-line span{color:#d1d0c4}.progress-shell{height:14px;border:1px solid #947447;background:#060c0c;box-shadow:inset 0 2px 5px #000;padding:2px;border-radius:2px}.progress-bar{height:8px;background:linear-gradient(90deg,#38694e,#75af75,#bcda95);width:45%;box-shadow:0 0 8px #97bf8066;transition:width .2s}.progress-foot{font-size:10px;color:#bfbdb1;text-align:right;margin-top:6px}
+    .track-section{padding:18px 42px 20px;background:linear-gradient(180deg,#24302b,#17221f 65%,#121b1a);border-bottom:1px solid #705934}.section-label{text-align:center;color:#b7a274;text-transform:uppercase;font-size:10px;letter-spacing:3px;margin:0 0 12px}
+    .track{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));position:relative;gap:0;max-width:700px;margin:0 auto}.track:before{content:"";height:4px;position:absolute;left:12%;right:12%;top:27px;background:linear-gradient(90deg,#8caa79 0%,#8caa79 49%,#5b543e 50%,#5b543e 100%);border-top:1px solid #b2a17666;box-shadow:0 2px 6px #000;z-index:0}
+    .tier{z-index:1;background:none;border:0;color:var(--muted);cursor:pointer;padding:0 4px 2px;display:flex;flex-direction:column;align-items:center;gap:7px;min-width:0}.tier:focus-visible{outline:2px solid #f4d68d;outline-offset:4px;border-radius:4px}.tier .node{height:58px;width:58px;display:grid;place-items:center;position:relative;background:#18231e;border:3px solid #5d614f;border-radius:50%;box-shadow:0 3px 0 #0a110f,0 0 0 4px #101817;color:#7d8574;font:28px Georgia,serif;transition:.2s}.tier.unlocked .node{background:radial-gradient(circle at 40% 30%,#507b62,#1e352a 70%);border-color:#9db583;color:#d6e5b3}.tier.selected .node{background:radial-gradient(circle,#775f38,#2a271a 70%);border-color:var(--faction-accent);color:#ffdf95;box-shadow:0 0 0 4px #101817,0 0 16px #cba45c66;transform:translateY(-3px)}.tier .tier-name{font:16px Georgia,serif;color:#c2b9a2;white-space:nowrap}.tier.unlocked .tier-name{color:#e0d4b7}.tier.selected .tier-name{color:#ffda91}.tier small{font-size:10px;color:#938f82;letter-spacing:1px;text-transform:uppercase}.tier.selected small{color:#e7c98e}
+    .rewards{padding:24px 40px 26px;background:radial-gradient(ellipse at 50% 0,#25332b 0%,#131c1c 58%,#0f1718 100%);min-height:265px}.rewards-top{display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:1px solid #7763456c;padding-bottom:15px;margin-bottom:19px}.rewards h2{font:24px Georgia,serif;letter-spacing:1px;margin:0;color:#efdaab}.rewards-top p{font-size:12px;margin:6px 0 0;color:#b6b9ad}.tier-status{font-size:11px;color:#d9b980;border:1px solid #84693b;padding:8px 11px;letter-spacing:1px;text-transform:uppercase;white-space:nowrap}
+    .reward-scroll{height:225px;overflow-y:auto;overscroll-behavior:contain;padding:2px 10px 3px 2px;scrollbar-color:var(--faction-accent) #111b1b;scrollbar-width:thin}.reward-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;align-content:start}.reward-card{display:flex;gap:13px;align-items:center;height:82px;min-height:82px;min-width:0;border:1px solid #65563b;background:linear-gradient(90deg,#2a322b,#1b2523);padding:12px;position:relative;border-radius:3px}.reward-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:2px;background:#a18d59}.reward-icon{display:grid;place-items:center;width:51px;height:51px;min-width:51px;flex:0 0 51px;background:radial-gradient(circle,#405a4b,#182522);border:2px solid #74633f;box-shadow:inset 0 0 10px #0009;font-size:27px}.reward-card>div:last-child{min-width:0}.reward-name{font-size:13px;color:#eee1c5;font-weight:700;line-height:1.4}.reward-type{color:#aab3a6;font-size:11px;margin-top:6px}.mock-data{color:#9e9c8c;font-size:11px;margin:19px 0 0}.bottom{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-top:24px;flex-wrap:wrap}.controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.controls label{font-size:12px;color:#bcb7a7}.controls select{background:#1e2b27;border:1px solid #8b754c;border-radius:3px;color:#f0dfb8;padding:9px 12px;cursor:pointer}.hint{font-size:12px;color:#aba99e}.closed{display:none}.reopen{background:#2d3a30;border:1px solid #b89b5e;padding:15px 25px;color:#f0d7a7;cursor:pointer;font:17px Georgia,serif}.center{text-align:center;margin:80px auto}
+    @media(max-width:650px){.page{padding:16px 10px 45px}.hero{height:275px}.track-section{padding:22px 10px 25px}.tier .node{height:52px;width:52px;font-size:22px}.track:before{top:25px}.tier .tier-name{font-size:13px}.tier small{font-size:9px}.rewards{padding:24px 18px 30px}.reward-grid{grid-template-columns:1fr}.reward-scroll{height:256px}.rewards h2{font-size:21px}.tier-status{font-size:9px;padding:7px}.subtitle{font-size:12px}}
+    @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+  </style>
+</head>
+<body>
+<main class="page">
+  <div class="topline"><div class="brand">REPUTATION <span style="color:#98ab88">RENOWN</span></div><div class="badge">VISUAL PROTOTYPE · V0.2</div></div>
+  <p class="note">Mockup interativo, não é a UI do jogo. As recompensas abaixo são <strong>fictícias</strong> e servem apenas para testar o layout. Os ícones são placeholders. A aparência alternativa serve apenas para demonstrar temas configuráveis.</p>
+  <div id="mockWindow" class="mock-window" role="region" aria-label="Janela simulada de reputação Timbermaw Hold">
+    <header class="hero"><div class="hero-overlay"></div><button class="close" id="closeButton" aria-label="Fechar janela" title="Fechar janela">×</button><div class="header-content"><div class="eyebrow">Faction reputation</div><div class="crest" aria-hidden="true"><span id="factionCrest">ᚦ</span></div><h1 id="factionTitle">TIMBERMAW HOLD</h1><p class="subtitle" id="factionSubtitle">Guardians of the ancient forest</p><div class="reputation"><div class="reputation-line"><strong id="currentStanding">HONORED</strong><span id="progressNumber">5,400 / 12,000</span></div><div class="progress-shell"><div class="progress-bar" id="progressBar"></div></div><div class="progress-foot" id="nextStanding">Progress to Revered</div></div></div></header>
+    <section class="track-section" aria-label="Marcos de reputação"><p class="section-label">Reputation milestones · select a rank</p><nav class="track" id="track"></nav></section>
+    <section class="rewards" aria-live="polite"><div class="rewards-top"><div><h2 id="rewardsHeading">Honored Rewards</h2><p id="rewardsSubtitle">What you can unlock at this reputation rank</p></div><span id="tierStatus" class="tier-status">Unlocked</span></div><div class="reward-scroll" id="rewardScroll" tabindex="0" aria-label="Lista rolável de recompensas"><div id="rewardGrid" class="reward-grid"></div></div><p class="mock-data">✦ Prototype data only · Item IDs, names, icons and vendor requirements must be verified in WoW Forever.</p></section>
+  </div>
+  <div id="closedState" class="center closed"><button class="reopen" id="reopenButton">Open Reputation Renown</button></div>
+  <div class="bottom"><div class="controls"><label for="factionSelector">Preview theme:</label><select id="factionSelector"><option value="timbermaw">Timbermaw Hold</option><option value="demo">Demo · alternate faction</option></select><label for="standingSelector">Simulate current standing:</label><select id="standingSelector"><option value="0">Hated</option><option value="1">Hostile</option><option value="2">Unfriendly</option><option value="3">Neutral</option><option value="4">Friendly</option><option value="5" selected>Honored</option><option value="6">Revered</option><option value="7">Exalted</option></select></div><span class="hint">Click a milestone to inspect its rewards · Local browser demo</span></div>
+</main>
+<script>
+  'use strict';
+  const standings=['Hated','Hostile','Unfriendly','Neutral','Friendly','Honored','Revered','Exalted'];
+  // Fictional placeholders: deliberately NOT claims about WoW Forever items.
+  const tiers=[
+    {rank:4,name:'Friendly',glyph:'❧',rewards:[['📜','Sample crafting recipe','Profession · placeholder'],['🧰','Sample supply bundle','Faction vendor · placeholder']]},
+    {rank:5,name:'Honored',glyph:'✦',rewards:[['⚒','Sample weapon schematic','Blacksmithing · placeholder'],['📖','Sample enchantment formula','Enchanting · placeholder'],['🧵','Sample armor pattern','Tailoring · placeholder'],['🍃','Sample herbal accessory','Equipment · placeholder']]},
+    {rank:6,name:'Revered',glyph:'❖',rewards:[['🛡','Sample guardian armor','Equipment · placeholder'],['🌿','Sample forest talisman','Equipment · placeholder'],['📜','Sample advanced recipe','Profession · placeholder']]},
+    {rank:7,name:'Exalted',glyph:'✹',rewards:[['🏅','Sample exalted reward','Faction vendor · placeholder']]}
+  ];
+  // Themes and assets are intentionally separated from layout and reward data.
+  // Alternate theme is fictional and only demonstrates skinning.
+  const factionThemes={
+    timbermaw:{name:'Timbermaw Hold',subtitle:'Guardians of the ancient forest',crest:'ᚦ',colors:{accent:'#bd9454',border:'#bd9454',forest:'#314b3d',highlight:'#9db583'},tierIcons:['❧','✦','❖','✹']},
+    demo:{name:'Example faction',subtitle:'Theme customization preview',crest:'✶',colors:{accent:'#94a7d7',border:'#7089b1',forest:'#34385e',highlight:'#a5b9ed'},tierIcons:['✧','✦','✥','✷']}
+  };
+  let currentTheme='timbermaw';
+  let currentRank=5, selectedRank=5;
+  function applyTheme(){
+    const theme=factionThemes[currentTheme];
+    $('factionTitle').textContent=theme.name.toUpperCase();
+    $('factionSubtitle').textContent=theme.subtitle;
+    $('factionCrest').textContent=theme.crest;
+    const root=document.documentElement.style;
+    Object.entries(theme.colors).forEach(([key,value])=>root.setProperty('--faction-'+key,value));
+  }
+  const $=id=>document.getElementById(id);
+  function render(){
+    $('currentStanding').textContent=standings[currentRank].toUpperCase();
+    const atCap=currentRank===7;
+    $('progressNumber').textContent=atCap?'MAX REPUTATION':'5,400 / 12,000';
+    $('progressBar').style.width=atCap?'100%':'45%';
+    $('nextStanding').textContent=atCap?'Maximum standing reached':`Simulated progress in ${standings[currentRank]}`;
+    $('track').replaceChildren();
+    tiers.forEach((t,index)=>{
+      const btn=document.createElement('button');btn.type='button';btn.className='tier'+(t.rank<=currentRank?' unlocked':'')+(t.rank===selectedRank?' selected':'');
+      btn.setAttribute('aria-pressed',String(t.rank===selectedRank));btn.setAttribute('aria-label',`View ${t.name} rewards`);
+      btn.innerHTML=`<span class="node" aria-hidden="true">${factionThemes[currentTheme].tierIcons[index]}</span><span class="tier-name">${t.name}</span><small>${t.rank<=currentRank?'Unlocked':'Locked'}</small>`;
+      btn.addEventListener('click',()=>{selectedRank=t.rank;render();$('rewardScroll').scrollTop=0});$('track').append(btn);
+    });
+    const selected=tiers.find(t=>t.rank===selectedRank);
+    $('rewardsHeading').textContent=selected.name+' Rewards';
+    $('rewardsSubtitle').textContent='Preview the rewards associated with this milestone';
+    $('tierStatus').textContent=selectedRank<=currentRank?'Unlocked':'Not yet unlocked';
+    $('rewardGrid').replaceChildren();
+    selected.rewards.forEach(([icon,name,type])=>{const card=document.createElement('article');card.className='reward-card';const img=document.createElement('div');img.className='reward-icon';img.textContent=icon;img.setAttribute('aria-hidden','true');const info=document.createElement('div');const title=document.createElement('div');title.className='reward-name';title.textContent=name;const category=document.createElement('div');category.className='reward-type';category.textContent=type;info.append(title,category);card.append(img,info);$('rewardGrid').append(card)});
+  }
+  $('factionSelector').addEventListener('change',event=>{currentTheme=event.target.value;applyTheme();render()});
+  $('standingSelector').addEventListener('change',event=>{currentRank=Number(event.target.value);render()});
+  $('closeButton').addEventListener('click',()=>{$('mockWindow').classList.add('closed');$('closedState').classList.remove('closed')});
+  $('reopenButton').addEventListener('click',()=>{$('mockWindow').classList.remove('closed');$('closedState').classList.add('closed')});
+  applyTheme();
+  render();
+</script>
+</body>
+</html>
