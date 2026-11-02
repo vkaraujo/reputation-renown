@@ -1,43 +1,143 @@
 local addon = ReputationRenown
-addon.factions = addon.factions or {}
 
-local icon = "Interface\\Icons\\INV_Misc_QuestionMark"
+local placeholderIcon = "Interface\\Icons\\INV_Misc_QuestionMark"
 
-addon.factions.timbermaw = {
+-- Creates a reward entry
+local function reward(name, category, price, itemId)
+    return {
+        name = name,
+        category = category,
+        price = price,
+        itemId = itemId,
+        texture = placeholderIcon,
+    }
+end
+
+addon:RegisterFaction({
     id = "timbermaw",
+    factionId = 576,
+
     name = "Timbermaw Hold",
     description = "A reputation with the furbolgs of Felwood.",
+
+    -- Visual configuration
     theme = {
         background = { 0.055, 0.085, 0.07, 0.98 },
         surface = { 0.105, 0.14, 0.12, 1 },
         accent = { 0.81, 0.68, 0.40, 1 },
         border = { 0.45, 0.36, 0.23, 1 },
-        emblemTexture = icon, -- Replace with a real asset later.
-        tierTextures = { friendly = icon, honored = icon, revered = icon, exalted = icon },
-        borderStyle = "classic", -- Reserved for a future border renderer.
-    },
-    rewards = {
-        friendly = {
-            { name = "Sample Friendly reward 1", category = "Demonstration", texture = icon },
-            { name = "Sample Friendly reward 2", category = "Demonstration", texture = icon },
-        },
-        honored = {
-            { name = "Sample Honored reward 1", category = "Demonstration", texture = icon },
-            { name = "Sample Honored reward 2", category = "Demonstration", texture = icon },
-            { name = "Sample Honored reward 3", category = "Demonstration", texture = icon },
-        },
-        revered = {},
-        exalted = {
-            { name = "Sample Exalted reward", category = "Demonstration", texture = icon },
-        },
-    },
-}
 
--- Make Revered long enough to exercise scrolling while the client is unavailable.
-for i = 1, 12 do
-    table.insert(addon.factions.timbermaw.rewards.revered, {
-        name = "Sample Revered reward " .. i,
-        category = "Scrolling demonstration",
-        texture = icon,
-    })
-end
+        emblemTexture = placeholderIcon,
+
+        tierTextures = {
+            friendly = placeholderIcon,
+            honored = placeholderIcon,
+            revered = placeholderIcon,
+            exalted = placeholderIcon,
+        },
+
+        borderStyle = "classic",
+    },
+
+    -- Real rewards from the WoW Forever beta
+    rewards = {
+
+        friendly = {
+            reward(
+                "Formula: Enchant 2H Weapon - Agility",
+                "Enchanting",
+                25000
+            ),
+
+            reward(
+                "Pattern: Warbear Harness",
+                "Pattern",
+                16000
+            ),
+
+            reward(
+                "Pattern: Warbear Woolies",
+                "Pattern",
+                20000
+            ),
+
+            reward(
+                "Recipe: Transmute Earth to Water",
+                "Alchemy",
+                15000
+            ),
+        },
+
+        honored = {
+            reward(
+                "Formula: Enchant Weapon - Agility",
+                "Enchanting",
+                30000
+            ),
+
+            reward(
+                "Pattern: Heavy Timbermaw Belt",
+                "Pattern",
+                22000
+            ),
+
+            reward(
+                "Pattern: Might of the Timbermaw",
+                "Pattern",
+                22000
+            ),
+
+            reward(
+                "Pattern: Wisdom of the Timbermaw",
+                "Pattern",
+                22000
+            ),
+        },
+
+        revered = {
+            reward(
+                "Formula: Enchant Shield - Law of Nature",
+                "Enchanting",
+                100000
+            ),
+
+            reward(
+                "Pattern: Heavy Timbermaw Boots",
+                "Pattern",
+                40000
+            ),
+
+            reward(
+                "Pattern: Mantle of the Timbermaw",
+                "Pattern",
+                40000
+            ),
+
+            reward(
+                "Pattern: Timbermaw Brawlers",
+                "Pattern",
+                40000
+            ),
+
+            reward(
+                "Plans: Bagh Nakh",
+                "Blacksmithing",
+                100000
+            ),
+
+            reward(
+                "Plans: Stormcarver",
+                "Blacksmithing",
+                100000
+            ),
+        },
+
+        exalted = {
+            reward(
+                "Defender of the Timbermaw",
+                "Trinket",
+                35965
+            ),
+        },
+    },
+})
