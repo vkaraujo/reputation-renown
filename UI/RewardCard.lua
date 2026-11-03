@@ -82,6 +82,21 @@ function addon:RefreshRewardCard(card)
   card.icon:SetDesaturated(not card.unlocked)
 end
 
+function addon:UpdateRewardCard(card, reward, faction, unlocked)
+  card.reward = reward
+  card.unlocked = unlocked
+
+  -- Update visual appearance
+  SetColor(card.background, faction.theme.surface)
+
+  card.category:SetText(reward.category or "")
+
+  -- Update item name, icon and lock state
+  self:RefreshRewardCard(card)
+
+  card:Show()
+end
+
 -- Create a reusable reward card.
 function addon:CreateRewardCard(parent, reward, faction, unlocked)
   local card = CreateFrame("Button", nil, parent)
