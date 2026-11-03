@@ -1,7 +1,7 @@
 local addon = ReputationRenown
 local WINDOW_WIDTH, WINDOW_HEIGHT = 850, 565
 local CARD_WIDTH, CARD_HEIGHT = 342, 72
-local ICON_SIZE, ROW_GAP = 48, 9
+local ROW_GAP = 9
 local SCROLL_WIDTH, SCROLL_HEIGHT = 704, 230
 
 local function SetColor(texture, rgba)
@@ -26,33 +26,6 @@ local function MakePanel(parent, width, height, point, relative, relativePoint, 
     return panel
 end
 
-local function MakeRewardCard(parent, reward, faction, unlocked)
-    local card = CreateFrame("Frame", nil, parent)
-    card:SetSize(CARD_WIDTH, CARD_HEIGHT)
-
-    local bg = card:CreateTexture(nil, "BACKGROUND")
-    bg:SetAllPoints()
-    SetColor(bg, faction.theme.surface)
-
-    local icon = card:CreateTexture(nil, "ARTWORK")
-    icon:SetSize(ICON_SIZE, ICON_SIZE)
-    icon:SetPoint("LEFT", card, "LEFT", 12, 0)
-    icon:SetTexture(reward.texture or "Interface\\Icons\\INV_Misc_QuestionMark")
-    if not unlocked then icon:SetDesaturated(true) end
-
-    local name = card:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-    name:SetPoint("TOPLEFT", icon, "TOPRIGHT", 12, -5)
-    name:SetPoint("RIGHT", card, "RIGHT", -8, 0)
-    name:SetJustifyH("LEFT")
-    name:SetText(reward.name)
-
-    local category = card:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
-    category:SetPoint("TOPLEFT", name, "BOTTOMLEFT", 0, -7)
-    category:SetText(reward.category or "")
-
-    return card
-end
-
 function addon:UpdateRewardList()
     local ui = self.ui
     local faction = self:GetFaction()
@@ -65,10 +38,30 @@ function addon:UpdateRewardList()
     ui.rewardCount:SetText(#rewards .. " rewards")
 
     for i, reward in ipairs(rewards) do
-        local card = MakeRewardCard(ui.scrollContent, reward, faction, unlocked)
+        local card = self:CreateRewardCard(ui.scrollContent, reward, faction, unlocked)
+
         local column = (i - 1) % 2
         local row = math.floor((i - 1) / 2)
+
         card:SetPoint("TOPLEFT", ui.scrollContent, "TOPLEFT", column * (CARD_WIDTH + 12), -row * (CARD_HEIGHT + ROW_GAP))
+
+        -- Allow scrolling even when hovering over a card.
+        card:EnableMouseWheel(true)
+
+        card:SetScript("OnMouseWheel", function(_, delta)
+            local minimum, maximum = ui.scrollBar:GetMinMaxValues()
+
+            local nextValue = math.max(
+                minimum,
+                math.min(
+                    maximum,
+                    ui.scrollBar:GetValue() - delta * 35
+                )
+            )
+
+            ui.scrollBar:SetValue(nextValue)
+        end)
+
         ui.rewardCards[#ui.rewardCards + 1] = card
     end
 

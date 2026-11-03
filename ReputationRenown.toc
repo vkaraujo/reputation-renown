@@ -10,4 +10,5 @@ Core/Reputation.lua
 
 Data/TimbermawHold.lua
 
+UI/RewardCard.lua
 UI/ReputationFrame.lua
