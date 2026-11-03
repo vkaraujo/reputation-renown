@@ -30,7 +30,7 @@ assert(#addon:GetRewards("timbermaw", "exalted") == 1)
 local total = 0
 
 for _, tier in ipairs(addon.TIERS) do
-    total = total + #addon:GetRewards("timbermaw", tier)
+  total = total + #addon:GetRewards("timbermaw", tier)
 end
 
 assert(total == 15)
@@ -44,5 +44,31 @@ assert(not addon:IsTierUnlocked("friendly", "invalid"))
 
 -- Test missing faction
 assert(#addon:GetRewards("unknown", "friendly") == 0)
+
+-- Verify that every reward has a valid item ID
+local itemIds = {}
+
+for _, tier in ipairs(addon.TIERS) do
+  local rewards = addon:GetRewards("timbermaw", tier)
+
+  for _, reward in ipairs(rewards) do
+    assert(
+      type(reward.itemId) == "number",
+      "Missing item ID: " .. reward.name
+    )
+
+    assert(
+      reward.itemId > 0,
+      "Invalid item ID: " .. reward.name
+    )
+
+    assert(
+      not itemIds[reward.itemId],
+      "Duplicate item ID: " .. reward.itemId
+    )
+
+    itemIds[reward.itemId] = true
+  end
+end
 
 print("All faction tests passed!")

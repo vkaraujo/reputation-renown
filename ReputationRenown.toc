@@ -10,4 +10,9 @@ Core/Reputation.lua
 
 Data/TimbermawHold.lua
 
+UI/Utils.lua
+UI/RewardCard.lua
+UI/FactionHeader.lua
+UI/ReputationTrack.lua
+UI/RewardList.lua
 UI/ReputationFrame.lua
