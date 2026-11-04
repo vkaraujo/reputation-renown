@@ -1,0 +1,10 @@
+package-as: ReputationRenown
+
+ignore:
+  - .github
+  - scripts
+  - README.md
+  - CHANGELOG.md
+  - LICENSE
+  - .gitignore
+  
