@@ -5,6 +5,7 @@ local addon = ReputationRenown
 -- Load domain modules
 dofile("Core/Factions.lua")
 dofile("Core/Reputation.lua")
+dofile("Data/Rewards.lua")
 dofile("Data/TimbermawHold.lua")
 
 -- Load interface coordinator

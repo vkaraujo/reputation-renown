@@ -51,9 +51,9 @@ Interface/
 └── AddOns/
     └── ReputationRenown/
         ├── ReputationRenown.toc
+        ├── Assets/
         ├── Core/
         ├── Data/
-        ├── Reputation/
         └── UI/
 ```
 

@@ -2,7 +2,9 @@ package-as: ReputationRenown
 
 ignore:
   - .github
+  - prototype
   - scripts
+  - tests
   - README.md
   - CHANGELOG.md
   - LICENSE
