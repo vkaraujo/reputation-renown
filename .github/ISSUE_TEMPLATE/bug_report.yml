@@ -1,0 +1,77 @@
+name: Bug Report
+description: Report a problem with Reputation Renown.
+title: "[Bug]: "
+labels: ["bug"]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve Reputation Renown!
+
+        Please provide as much information as possible.
+
+  - type: input
+    id: addon-version
+    attributes:
+      label: Addon Version
+      description: Which version of Reputation Renown are you using?
+      placeholder: "0.1.0"
+    validations:
+      required: true
+
+  - type: input
+    id: game-version
+    attributes:
+      label: Game Version
+      description: Which version of WoW Forever are you using?
+      placeholder: "WoW Forever 1.60.1"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: Describe the problem.
+      placeholder: What happened?
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to Reproduce
+      description: How can we reproduce the problem?
+      placeholder: |
+        1. Open the reputation panel
+        2. Select a faction
+        3. ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What did you expect to happen?
+    validations:
+      required: true
+
+  - type: textarea
+    id: errors
+    attributes:
+      label: Lua Errors
+      description: Paste any relevant Lua errors here.
+      render: text
+    validations:
+      required: false
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots
+      description: Attach screenshots if they help explain the problem.
+    validations:
+      required: false
+      

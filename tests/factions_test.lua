@@ -6,6 +6,7 @@ local addon = ReputationRenown
 -- Load our modules
 dofile("Core/Factions.lua")
 dofile("Core/Reputation.lua")
+dofile("Data/Rewards.lua")
 dofile("Data/TimbermawHold.lua")
 
 -- Test faction registration
