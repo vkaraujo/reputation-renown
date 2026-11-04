@@ -1,17 +1,7 @@
 local addon = ReputationRenown
 
-local placeholderIcon = "Interface\\Icons\\INV_Misc_QuestionMark"
-
--- Creates a reward entry
-local function reward(name, category, price, itemId)
-    return {
-        name = name,
-        category = category,
-        price = price,
-        itemId = itemId,
-        texture = placeholderIcon,
-    }
-end
+local placeholderIcon = addon.PLACEHOLDER_ICON
+local reward = addon.CreateReward
 
 addon:RegisterFaction({
   id = "timbermaw",

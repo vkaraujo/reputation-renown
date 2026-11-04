@@ -7,8 +7,14 @@
 Core/Init.lua
 Core/Factions.lua
 Core/Reputation.lua
+Core/Items.lua
 
+Data/Rewards.lua
 Data/TimbermawHold.lua
+Data/ThoriumBrotherhood.lua
+Data/ArgentDawn.lua
+Data/CenarionCircle.lua
+Data/ZandalarTribe.lua
 
 UI/Utils.lua
 UI/RewardCard.lua
